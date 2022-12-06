@@ -6,13 +6,13 @@ from .forms import TaskForm, UpdateTaskForm
 
 
 def index(request):
-    todos = Task.objects.all()
-    count_todos = todos.count()
+    todos = Task.objects.all() #To find all the task objects cr
+    count_todos = todos.count() #To count total tasks created
 
-    completed_todo = Task.objects.filter(complete=True)
-    count_completed_todo = completed_todo.count()
+    completed_todo = Task.objects.filter(complete=True) # to get completed tasks
+    count_completed_todo = completed_todo.count() # to count conpleted tasks
 
-    uncompleted = count_todos - count_completed_todo
+    uncompleted = count_todos - count_completed_todo # to count uncompleted tasks
 
     if request.method == 'POST':
         form = TaskForm(request.POST)
@@ -30,7 +30,7 @@ def index(request):
     }
     return render(request, 'todos/index.html', context)
 
-
+#to update the tasks
 def update(request, pk):
     task = Task.objects.get(id=pk)
     if request.method == 'POST':
@@ -45,7 +45,7 @@ def update(request, pk):
     }
     return render(request, 'todos/update_task.html', context)
 
-
+#to delete the tasks
 def delete(request, pk):
     task = Task.objects.get(id=pk)
     if request.method == 'POST':
@@ -53,10 +53,12 @@ def delete(request, pk):
         return redirect('/')
     return render(request, 'todos/delete_task.html')
 
+#to display completed tasks
 def completed(request):
     completed_todo = Task.objects.filter(complete=True)
     return render(request, 'todos/completed.html', {"completed":completed_todo})
 
+#to display pending tasks
 def pending(request):
     pending_todo = Task.objects.filter(complete=False)
     return render(request, 'todos/completed.html', {"completed":pending_todo})
